@@ -1,7 +1,9 @@
 group 'SlimeWorldManager'
 
+
 dependencies {
-    compileOnly "com.grinderwolf:slimeworldmanager-api:2.2.1"
-    compileOnly "org.spigotmc:v1_8_R3-Taco:latest"
+    compileOnly "com.infernalsuite.aswm:api:3.0.0-SNAPSHOT"
+    implementation "com.infernalsuite.aswm:loaders:3.0.0-SNAPSHOT"
+    compileOnly "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT"
     compileOnly project(":API")
 }

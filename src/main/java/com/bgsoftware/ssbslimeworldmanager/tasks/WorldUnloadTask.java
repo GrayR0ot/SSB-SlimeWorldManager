@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class WorldUnloadTask extends BukkitRunnable {
 
-    private static final long MINUTE_IN_TICKS = 1200L;
+    private static final long SECOND_IN_TICKS = 20L;
 
     private static final WorldUnloadTask EMPTY_TASK = new WorldUnloadTask(null) {
         @Override
@@ -42,7 +42,7 @@ public class WorldUnloadTask extends BukkitRunnable {
         this.worldName = worldName;
 
         if (worldName != null && module.getSettings().unloadDelay > 0) {
-            runTaskTimer(module.getPlugin(), MINUTE_IN_TICKS, module.getSettings().unloadDelay * MINUTE_IN_TICKS);
+            runTaskTimer(module.getPlugin(), SECOND_IN_TICKS, module.getSettings().unloadDelay * SECOND_IN_TICKS);
             updateTimeUntilNextUnload();
         }
     }

@@ -1,17 +1,20 @@
 package com.bgsoftware.ssbslimeworldmanager.listeners;
 
 import com.bgsoftware.ssbslimeworldmanager.SlimeWorldModule;
+import com.bgsoftware.ssbslimeworldmanager.api.SlimeUtils;
 import com.bgsoftware.superiorskyblock.api.events.IslandDisbandEvent;
 import com.bgsoftware.superiorskyblock.api.island.Island;
 import com.bgsoftware.superiorskyblock.api.world.Dimension;
 import com.bgsoftware.superiorskyblock.api.wrappers.SuperiorPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -48,6 +51,26 @@ public class IslandsListener implements Listener {
                 }
             }
         }, 5L);
+    }
+
+    @EventHandler
+    public void onPlayerKicked(PlayerKickEvent e) {
+        System.out.println(e.getReason());
+        Player player = e.getPlayer();
+        SuperiorPlayer superiorPlayer = module.getPlugin().getPlayers().getSuperiorPlayer(player);
+        Island island = superiorPlayer.getIsland();
+        for (Dimension dimension : Dimension.values()) {
+            World world = Bukkit.getWorld(SlimeUtils.getWorldName(island.getUniqueId(), dimension));
+            if(world == null) continue;
+            System.out.println("Trying to unload world " + dimension.getName() + " of player " + player.getName());
+
+            if (SlimeUtils.isIslandWorldName(world.getName()) && world.getPlayers().isEmpty()) {
+                SlimeUtils.saveAndUnloadWorld(world.getName());
+                System.out.println("Unloaded world of player " + player.getName());
+            } else {
+                System.out.println("Unable to unload world of player " + player.getName());
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

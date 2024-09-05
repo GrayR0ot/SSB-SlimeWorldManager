@@ -10,10 +10,10 @@ import com.bgsoftware.superiorskyblock.api.hooks.LazyWorldsProvider;
 import com.bgsoftware.superiorskyblock.api.island.Island;
 import com.bgsoftware.superiorskyblock.api.world.Dimension;
 import com.bgsoftware.superiorskyblock.api.world.WorldInfo;
+import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.event.world.WorldLoadEvent;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -253,9 +253,7 @@ public class SlimeWorldsProvider implements LazyWorldsProvider {
 
     private World generateWorld(ISlimeWorld slimeWorld) {
         this.module.getSlimeAdapter().generateWorld(slimeWorld);
-        World bukkitWorld = Bukkit.getWorld(slimeWorld.getName());
-        Bukkit.getPluginManager().callEvent(new WorldLoadEvent(bukkitWorld));
-        return bukkitWorld;
+        return Bukkit.getWorld(slimeWorld.getName());
     }
 
     private static class PendingWorldLoadRequest extends CompletableFuture<World> {

@@ -40,15 +40,12 @@ public class SlimeWorldModule extends PluginModule {
     @Override
     public void onEnable(SuperiorSkyblock plugin) {
         this.plugin = plugin;
-
         this.settingsManager = new SettingsManager(this);
-
         this.slimeAdapter = loadAdapter();
         if (this.slimeAdapter == null)
             throw new RuntimeException("Could not find SWM/ASWM adapter. Ensure that your data source is correct in the config.yml for SlimeWorldIslands.");
 
         loadWorldsProvider();
-
         loadCreationAlgorithm();
     }
 
@@ -122,26 +119,12 @@ public class SlimeWorldModule extends PluginModule {
     }
 
     private ISlimeAdapter loadAdapter() {
-        ISlimeAdapter slimeAdapter;
-
         try {
             Class.forName("com.infernalsuite.aswm.api.AdvancedSlimePaperAPI");
-            slimeAdapter = createAdapterInstance("com.bgsoftware.ssbslimeworldmanager.swm.impl.asp3.SWMAdapter");
-        } catch (Throwable ignored) {
-            try {
-                Class.forName("com.infernalsuite.aswm.api.SlimePlugin");
-                slimeAdapter = createAdapterInstance("com.bgsoftware.ssbslimeworldmanager.swm.impl.asp.SWMAdapter");
-            } catch (Throwable ignored2) {
-                try {
-                    Class.forName("com.grinderwolf.swm.nms.world.AbstractSlimeNMSWorld");
-                    slimeAdapter = createAdapterInstance("com.bgsoftware.ssbslimeworldmanager.swm.impl.aswm.SWMAdapter");
-                } catch (Throwable ignored3) {
-                    slimeAdapter = createAdapterInstance("com.bgsoftware.ssbslimeworldmanager.swm.impl.swm.SWMAdapter");
-                }
-            }
+            return this.createAdapterInstance("com.bgsoftware.ssbslimeworldmanager.swm.impl.swm.SWMAdapter");
+        } catch (Exception ex) {
+            return null;
         }
-
-        return slimeAdapter;
     }
 
     private void loadWorldsProvider() {

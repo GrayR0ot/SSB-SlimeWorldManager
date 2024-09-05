@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'io.github.goooler.shadow' version '8.1.7'
     id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group 'SSB-SlimeWorldManager'
@@ -20,7 +21,7 @@ allprojects {
 
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(8))
+            languageVersion.set(JavaLanguageVersion.of(21))
         }
     }
 
@@ -30,6 +31,10 @@ allprojects {
         maven { url 'https://repo.bg-software.com/repository/api/' }
         maven { url 'https://repo.bg-software.com/repository/common/' }
         maven { url 'https://repo.bg-software.com/repository/dependencies/' }
+        maven { url 'https://repo.infernalsuite.com/repository/maven-releases' }
+        maven { url 'https://repo.infernalsuite.com/repository/maven-snapshots/' }
+        maven { url 'https://repo.rapture.pw/repository/maven-releases/' }
+        maven { url 'https://repo.papermc.io/repository/maven-public/' }
     }
 
     dependencies {
@@ -67,7 +72,7 @@ dependencies {
     implementation project(":API")
 
     compileOnly 'com.bgsoftware.common.config:CommentedConfiguration:1.0.3'
-    compileOnly "org.spigotmc:v1_8_R3-Taco:latest"
+    compileOnly "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT"
 }
 
 jar {
@@ -93,6 +98,9 @@ shadowJar {
     dependsOn(jar)
 
     relocate 'com.bgsoftware.common', 'com.bgsoftware.superiorskyblock.libs.com.bgsoftware.common'
+    relocate 'com.mongodb', 'libs.com.mongodb'
+    relocate 'org.bson', 'libs.org.bson'
+    relocate 'com.infernalsuite.aswm.loaders', 'libs.com.infernalsuite.aswm.loaders'
 
     archiveFileName = rootProject.name + "-" + rootProject.buildVersion + ".jar"
 

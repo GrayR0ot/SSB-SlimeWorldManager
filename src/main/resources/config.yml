@@ -39,9 +39,9 @@ data-source:
     url: ''
     ignore-ssl-certificate: false
 
-# The delay until unloading a world from its last access time, in minutes.
+# The delay until unloading a world from its last access time, in seconds.
 # If you don't want to have any delay, set it to 0 or below.
-unload-delay: 10
+unload-delay: 600
 
 # Whether to teleport players back to their island if they logged out in it and
 # the world of the island is not loaded. When set to false, players will be
